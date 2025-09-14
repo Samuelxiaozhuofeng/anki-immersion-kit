@@ -15,6 +15,8 @@ from .common import LogDebug, NameId
 
 logDebug = LogDebug()
 
+import re
+
 
 def _window_state_path() -> str:
     return path.join(path.dirname(__file__), 'user_files', 'window_state.json')
@@ -73,6 +75,28 @@ def _selected_text_from_web(web) -> str:
             return ''
 
 
+def _sanitize_term(term: str) -> str:
+    """Remove bracketed readings like （おお） and similar pairs, then trim.
+    Supports both ASCII and fullwidth brackets common in JP text.
+    """
+    if not term:
+        return ''
+    s = term
+    patterns = [
+        r"\([^)]*\)",           # ( ... )
+        r"（[^）]*）",             # （ ... ）
+        r"\[[^\]]*\]",         # [ ... ]
+        r"【[^】]*】",             # 【 ... 】
+        r"〈[^〉]*〉",             # 〈 ... 〉
+        r"《[^》]*》",             # 《 ... 《
+        r"「[^」]*」",             # 「 ... 」
+        r"『[^』]*』",             # 『 ... 』
+    ]
+    for pat in patterns:
+        s = re.sub(pat, '', s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
 def _open_search_with_term(term: str):
     d = getattr(mw, '_ani_main_dialog', None)
     if not d:
@@ -82,7 +106,7 @@ def _open_search_with_term(term: str):
 
 
 def _quick_import_first(term: str):
-    term = (term or '').strip()
+    term = _sanitize_term((term or '').strip())
     if not term:
         return tooltip('No text selected.')
 
@@ -128,15 +152,16 @@ def init():
             pass
 
         text = _selected_text_from_web(web)
-        if not text:
+        stext = _sanitize_term(text)
+        if not stext:
             return
 
         act_search = QAction('Sub2Srs: Search with selection', menu)
-        qconnect(act_search.triggered, lambda _=False, t=text: _open_search_with_term(t))
+        qconnect(act_search.triggered, lambda _=False, t=stext: _open_search_with_term(t))
         menu.addAction(act_search)
 
         act_quick = QAction('Sub2Srs: Quick import first result', menu)
-        qconnect(act_quick.triggered, lambda _=False, t=text: _quick_import_first(t))
+        qconnect(act_quick.triggered, lambda _=False, t=stext: _quick_import_first(t))
         menu.addAction(act_quick)
 
     gui_hooks.webview_will_show_context_menu.append(on_context_menu)
@@ -148,9 +173,10 @@ def init():
         if not web:
             return tooltip('Not in Reviewer.')
         text = _selected_text_from_web(web)
-        if not text:
+        stext = _sanitize_term(text)
+        if not stext:
             return tooltip('No text selected.')
-        _open_search_with_term(text)
+        _open_search_with_term(stext)
 
     if not hasattr(mw, '_subsearch_lookup_action'):
         act = QAction('Sub2Srs: Lookup selection', mw)
