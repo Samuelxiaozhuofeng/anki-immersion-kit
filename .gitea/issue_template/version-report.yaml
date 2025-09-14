@@ -1,0 +1,85 @@
+name: Version Report
+description: Report a not working anki version. ! Please prefer bug report, if your version is on the tested versions list. 
+title: ""
+labels: ["bug", "version specific"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## IMPORTANT NOTICES BEFORE CREATING A VERSION REPORT:
+          - Only report if not reported
+          - Also edit the title
+          - Fill out everything that is required (also those required per context)
+          - Please check that it is not of origin outside of the addon
+  - type: markdown
+    attributes:
+      value: "## CLIENT & ENDPOINT INFORMATION"
+  - type: textarea
+    attributes:
+      label: "Client Versions (SubSearch, Debug)"
+      description: "The debug versions are at `Help` > `About Anki` > `Copy Debug Info` (at the bottom).\nVersions, which are in the trace log, are not required here."
+      placeholder: | 
+        SubSearch 1.0.0
+            
+        Anki 23.10.1 (fac9e0ee) Python 3.9.15 Qt 6.6.0 PyQt 6.6.0
+        Platform: Linux-6.5.0-14-generic-x86_64-with-glibc2.38
+        Flags: frz=True ao=True sv=3
+        Add-ons, last update check: 2023-12-31 14:23:48
+        
+        
+        ===Add-ons (active)===
+        (add-on provided name [Add-on folder, installed at, version, is config changed])
+        '' ['SubSearch', 0, 'None', mod]
+        Addon 1 ['1234509', 2023-12-30T00:38, 'None', mod]
+        
+        ===IDs of active AnkiWeb add-ons===
+        1234253
+        
+        ===Add-ons (inactive)===
+        (add-on provided name [Add-on folder, installed at, version, is config changed])
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: "## THE BUG"
+  - type: textarea
+    attributes:
+      label: "Anki Tracelog"
+      description: "The error informations that are shown in the opening window"
+      render: py
+  - type: textarea
+    attributes:
+      label: "SubSearch Log"
+      description: "Please copy the log of subsearch in your anki directory"
+  - type: textarea
+    attributes:
+      label: "Reproduce"
+      description: "Clear steps to reproduce"
+      value: |
+        1.
+        2.
+        3.
+  - type: textarea
+    attributes:
+      label: "What should happen and what happened"
+  - type: textarea
+    attributes:
+      label: Screenshots
+      description: "If applicable, add screenshots here"
+  - type: markdown
+    attributes:
+      value: "## ADDITIONAL CONTEXT & CHECKOUT"
+  - type: textarea
+    attributes: 
+      label: "Additional Context"
+      description: "Everything else needed for it to be fixed"
+  - type: checkboxes
+    attributes: 
+      label: Checkout
+      options:
+        - label: "I have changed the title"
+          required: true
+        - label: "I have filled out all required"
+          required: true
+        - label: "I have checked for duplicates"
+          required: true

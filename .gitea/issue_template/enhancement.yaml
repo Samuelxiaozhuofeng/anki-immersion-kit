@@ -1,0 +1,43 @@
+name: Enhancement
+description: To suggest a new idea
+title: ""
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## IMPORTANT NOTICES BEFORE CREATING:
+          - Only create if such an enhancement wasn't created in any form
+            - If one is similar, just add a comment
+          - Also edit the title
+  - type: markdown
+    attributes:
+      value: "## THE ENHANCEMENT"
+  - type: textarea
+    attributes:
+      label: "Description of your Idea"
+      description: "A clear description of your imaginary"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: "Alternatives"
+      description: "If there are alternatives, enter them here"  
+  - type: markdown
+    attributes:
+      value: "## ADDITIONAL CONTEXT & CHECKOUT"
+  - type: textarea
+    attributes:
+      label: "Additional Context"
+      description: "Everything else that is important to implement your request"
+  - type: checkboxes
+    attributes: 
+      label: Checkout
+      options:
+        - label: "I have changed the title"
+          required: true
+        - label: "I have filled out everything required"
+          required: true
+        - label: "I have checked for duplicates"
+          required: true
+  

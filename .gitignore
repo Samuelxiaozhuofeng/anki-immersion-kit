@@ -1,0 +1,11 @@
+.ignore*
+__pycache__
+/*.ankiaddon
+/*.zip
+.idea
+/meta.json
+/manifest.json
+/user_files/window_state.json
+pykakasi
+*.kdev*
+.vscode

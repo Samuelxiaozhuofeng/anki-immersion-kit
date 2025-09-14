@@ -1,0 +1,17 @@
+{
+  "notes_per_page": 100,
+  "enable_debug_log": true,
+  "hidden_fields": [
+    "furigana",
+    "image",
+    "audio"
+  ],
+  "skip_duplicates": true,
+  "jlab_format": false,
+  "import_source_info": false,
+  "preview_on_right_side": true,
+  "show_extended_filters": true,
+  "fetch_anki_card_media": false,
+  "show_help_buttons": true,
+  "call_add_cards_hook": false
+}
