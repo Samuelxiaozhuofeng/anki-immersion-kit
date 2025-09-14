@@ -306,6 +306,18 @@ class MainDialog(MainDialogUI):
         self.populate_ui()
         self.search_term_edit.setFocus()
 
+    # External entry: open dialog and run a search term
+    def open_with_term(self, term: str, auto_search: bool = True):
+        term = (term or "").strip()
+        if not term:
+            return
+        # Ensure UI is initialized
+        if not self.isVisible():
+            self.show()
+        self.search_term_edit.setText(term)
+        if auto_search:
+            self.update_notes_list()
+
     def populate_ui(self):
         self.status_bar.hide()
         if not config['show_extended_filters']:
