@@ -5,7 +5,7 @@ from os import path
 from typing import Optional
 
 from aqt import mw, gui_hooks
-from aqt.qt import QAction, qconnect
+from aqt.qt import QAction, qconnect, QKeySequence
 from aqt.utils import tooltip, showInfo
 from aqt.operations import QueryOp
 
@@ -141,3 +141,20 @@ def init():
 
     gui_hooks.webview_will_show_context_menu.append(on_context_menu)
 
+    # Global shortcut: Ctrl+Shift+U to search with current reviewer selection
+    def _shortcut_lookup():
+        rev = getattr(mw, 'reviewer', None)
+        web = getattr(rev, 'web', None)
+        if not web:
+            return tooltip('Not in Reviewer.')
+        text = _selected_text_from_web(web)
+        if not text:
+            return tooltip('No text selected.')
+        _open_search_with_term(text)
+
+    if not hasattr(mw, '_subsearch_lookup_action'):
+        act = QAction('Sub2Srs: Lookup selection', mw)
+        act.setShortcut(QKeySequence('Ctrl+Shift+U'))
+        qconnect(act.triggered, lambda _=False: _shortcut_lookup())
+        mw.addAction(act)
+        mw._subsearch_lookup_action = act
